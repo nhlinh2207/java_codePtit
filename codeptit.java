@@ -7,19 +7,23 @@ import java.util.*;
 
 public class Test {
     static class sv{
-        private String ma;
+        private String ho;
         private String ten;
-        private int tinchi;
-        private String lith;
-        private String thchanh;
+        private String full;
 
-        public sv(){}
-
-        public void setMa(String ma){
-            this.ma = ma;
+        public sv(String a, String b, String c){
+            ho = a;
+            ten = b;
+            full = c;
         }
 
-        public String getMa(){return ma;}
+        public String getHo() {
+            return ho;
+        }
+
+        public void setHo(String ho) {
+            this.ho = ho;
+        }
 
         public String getTen() {
             return ten;
@@ -29,67 +33,49 @@ public class Test {
             this.ten = ten;
         }
 
-        public int getTinchi() {
-            return tinchi;
+        public String getFull() {
+            return full;
         }
 
-        public void setTinchi(int tinchi) {
-            this.tinchi = tinchi;
-        }
-
-        public void xuat(){
-            System.out.println(ma+" "+ten+" "+tinchi+" "+lith+" "+thchanh);
-        }
-
-        public String getLith() {
-            return lith;
-        }
-
-        public void setLith(String lith) {
-            this.lith = lith;
-        }
-
-        public String getThchanh() {
-            return thchanh;
-        }
-
-        public void setThchanh(String thchanh) {
-            this.thchanh = thchanh;
+        public void setFull(String full) {
+            this.full = full;
         }
     }
     public static void main(String[] args) throws IOException {
-        Scanner s = new Scanner(new File("MONHOC.in"));
-        int c = 1;
-        sv a = null;
-        List<sv> res = new ArrayList<>();
-        Integer t = Integer.valueOf(s.nextLine());
-        while (s.hasNextLine()){
-            if (c ==1) {
-                a = new sv();
-                a.setMa(s.nextLine());
-                c++;
-            }else if (c == 2){
-                a.setTen(s.nextLine());
-                c++;
-            }else if (c == 3){
-                a.setTinchi(Integer.valueOf(s.nextLine()));
-                c++;
-            }
-            else if (c == 4){
-                a.setLith(s.nextLine());
-                c++;
-            }
-            else if (c == 5){
-                a.setThchanh(s.nextLine());
-                c=1;
-                res.add(a);
+        Scanner s = new Scanner(new File("DATA.in"));
+        Integer temp = Integer.valueOf(s.nextLine());
+        List<String> ten = new ArrayList<>();
+        List<String> rutgon = new ArrayList<>();
+        while (temp -- > 0){
+            ten.add(s.nextLine());
+        }
+        Integer b = Integer.valueOf(s.nextLine());
+        while (b --> 0){
+            rutgon.add(s.nextLine());
+        }
+        List<String> res = new ArrayList<>();
+        for (String i : rutgon){
+            String[] ten1 = i.split("\\.");
+            for (String k : ten){
+                int c = 0;
+                String[] ten2 = k.split(" ");
+                for (int j = 0;j<ten2.length; j++){
+                    if (ten1[j].equals(String.valueOf(ten2[j].charAt(0))))
+                        c++;
+                }
+                if (c == new ArrayList<String>(Arrays.asList(ten1)).stream().filter( p -> !p.equals("*")).count())
+                    res.add(k);
             }
         }
-        Collections.sort(res,Comparator.comparing(sv::getMa));
-        for (sv i : res)
-        {
-            if (!i.getThchanh().equals("Truc tiep"))
-                i.xuat();
+        List<sv> temp2 = new ArrayList<>();
+        for (String i: res){
+            String e[] = i.split(" ");
+            temp2.add(new sv(e[0], e[e.length -1], i));
+        }
+        Collections.sort(temp2, Comparator.comparing(sv::getHo));
+        Collections.sort(temp2, Comparator.comparing(sv::getTen));
+        for (sv i : temp2){
+            System.out.println(i.getFull());
         }
     }
 }
